@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-REPO_ZIP_URL="https://github.com/HiJaychou/222/archive/refs/heads/main.zip"
+REPO_ZIP_URL="https://github.com/iwantruncom/iwantrun.com-VPN-Web-Manager/archive/refs/heads/main.zip"
 APP_DIR="/opt/iwantrun-vpn-webui"
 DATA_DIR="/etc/freedom-vpn/web"
 SERVICE_NAME="iwantrun-vpn-web"
