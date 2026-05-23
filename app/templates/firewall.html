@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>端口状态</h1>
+    <p>查看当前监听端口和协议端口。系统内部防火墙由安装流程自动尝试放行。</p>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2>当前监听端口</h2>
+    {% for port in ports %}
+    <span class="firewall-port">{{ port }}</span>
+    {% endfor %}
+    <div class="alert">Web 面板会自动尝试放行服务器内部防火墙端口，但 VPS 服务商后台防火墙 / 安全组仍需要手动放行。</div>
+  </div>
+
+  <div class="card">
+    <h2>协议端口</h2>
+    <ul class="info-list">
+      {% for p in protocols %}
+      <li>
+        <strong>{{ p.protocol_name }}</strong>
+        <span>{{ p.port or '未安装' }}{{ '/' + p.port_type if p.port else '' }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="card mt">
+  <h2>VPS 后台防火墙提醒</h2>
+  <p>如果客户端无法连接，优先检查 VPS 服务商控制台防火墙 / 安全组是否放行对应端口。TCP 协议放行 TCP，Hysteria2 / TUIC 放行 UDP。</p>
+</div>
+{% endblock %}

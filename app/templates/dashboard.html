@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>面板信息</h1>
+    <p>VPN多协议管理面板</p>
+  </div>
+  <div class="status-pill"><span class="dot"></span> 面板运行中</div>
+</div>
+
+<section class="grid grid-3">
+  <div class="card">
+    <div class="metric-title">CPU 使用率</div>
+    <div class="metric-value" id="cpu-percent">{{ stats.cpu_percent }}%</div>
+    <div class="metric-sub">当前系统负载</div>
+    <div class="progress cpu"><span id="cpu-bar" style="width:{{ stats.cpu_percent }}%;"></span></div>
+  </div>
+
+  <div class="card">
+    <div class="metric-title">内存使用率</div>
+    <div class="metric-value" id="mem-value">{{ stats.mem_used }} / {{ stats.mem_total }}</div>
+    <div class="metric-sub" id="mem-sub">使用率 {{ stats.mem_percent }}%</div>
+    <div class="progress mem"><span id="mem-bar" style="width:{{ stats.mem_percent }}%;"></span></div>
+  </div>
+
+  <div class="card">
+    <div class="metric-title">硬盘使用率</div>
+    <div class="metric-value" id="disk-value">{{ stats.disk_used }} / {{ stats.disk_total }}</div>
+    <div class="metric-sub" id="disk-sub">使用率 {{ stats.disk_percent }}%</div>
+    <div class="progress disk"><span id="disk-bar" style="width:{{ stats.disk_percent }}%;"></span></div>
+  </div>
+</section>
+
+<section class="grid grid-4 mt">
+  <div class="card">
+    <div class="metric-title">已安装协议</div>
+    <div class="metric-value">{{ installed|length }}</div>
+    <div class="metric-sub">多协议独立管理</div>
+  </div>
+  <div class="card">
+    <div class="metric-title">sing-box 版本</div>
+    <div class="metric-value small" id="singbox-version">{{ singbox_version }}</div>
+    <div class="metric-sub">协议管理中可更新</div>
+  </div>
+  <div class="card">
+    <div class="metric-title">开放端口</div>
+    <div class="metric-value" id="open-port-count">{{ open_ports|length }}</div>
+    <div class="metric-sub">系统监听端口数量</div>
+  </div>
+  <div class="card">
+    <div class="metric-title">用户数量</div>
+    <div class="metric-value">{{ user_count }}</div>
+    <div class="metric-sub">进入用户管理查看</div>
+  </div>
+</section>
+
+<section class="card mt">
+  <h2>网络流量 <span class="live-dot">实时刷新</span></h2>
+  <div class="traffic-row">
+    <div class="traffic-box"><strong>实时上行</strong><span id="up-speed">{{ net.up_speed }}</span></div>
+    <div class="traffic-box"><strong>实时下行</strong><span id="down-speed">{{ net.down_speed }}</span></div>
+    <div class="traffic-box"><strong>总发送</strong><span id="total-sent">{{ net.total_sent }}</span></div>
+    <div class="traffic-box"><strong>总接收</strong><span id="total-recv">{{ net.total_recv }}</span></div>
+  </div>
+</section>
+
+<section class="grid grid-2 mt">
+  <div class="card">
+    <h2>当前节点状态</h2>
+    <ul class="info-list">
+      {% for p in protocols %}
+      <li>
+        <strong class="node-name">
+          {{ p.protocol_name }}
+          {% if p.installed %}
+          <i class="node-dot {{ 'on' if status[p.protocol_key] == '运行中' else 'off' }}"></i>
+          {% endif %}
+        </strong>
+        <span>{{ p.port or '未安装' }}{{ '/' + p.port_type if p.port else '' }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>当前开放端口</h2>
+    <div id="open-ports-box">
+      {% for port in open_ports[:8] %}
+      <span class="firewall-port">{{ port }}</span>
+      {% endfor %}
+    </div>
+    <div class="alert">请确认 VPS 后台安全组也放行协议端口和 Web 面板端口。</div>
+  </div>
+</section>
+
+<section class="card mt">
+  <h2>快捷操作</h2>
+  <div class="actions">
+    <a class="btn" href="/protocols">协议管理</a>
+    <a class="btn gray" href="/users">添加用户</a>
+    <a class="btn gray" href="/logs">查看日志</a>
+    <a class="btn gray" href="/settings">系统设置</a>
+  </div>
+</section>
+
+<script>window.IWANTRUN_DASHBOARD = true;</script>
+{% endblock %}

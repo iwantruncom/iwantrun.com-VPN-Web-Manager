@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>登录 - 自由档案馆 VPN 面板</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body class="login-body">
+  <form class="login-card" method="post" action="{{ login_path }}">
+    <h1>自由档案馆 VPN</h1>
+    <p>管理面板登录</p>
+
+    {% if error %}
+    <div class="alert red">{{ error }}</div>
+    {% endif %}
+
+    <label>管理员账号</label>
+    <input name="username" value="admin" required>
+
+    <label>管理员密码</label>
+    <input name="password" type="password" required>
+
+    <label>验证码</label>
+    <div class="captcha-row">
+      <input name="captcha" placeholder="输入图片验证码" autocomplete="off" required>
+      <img
+        src="/captcha.png?t={{ request.url.path }}"
+        onclick="this.src='/captcha.png?t='+Date.now()"
+        title="点击刷新验证码"
+      >
+    </div>
+
+    <button class="btn" type="submit">登录</button>
+  </form>
+</body>
+</html>

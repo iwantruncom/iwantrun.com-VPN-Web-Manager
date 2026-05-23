@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>用户管理</h1>
+    <p>按协议管理用户，开启、关闭或删除用户。</p>
+  </div>
+</div>
+
+{% if msg %}<div class="alert green">{{ msg }}</div>{% endif %}
+{% if error %}<div class="alert red">{{ error }}</div>{% endif %}
+
+<div class="card">
+  <h2>添加用户</h2>
+  <form class="form-inline users-add-form" method="post" action="/users/add">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input name="username" placeholder="用户名，例如 user_abc123" required>
+    <input name="password" placeholder="密码可留空随机生成">
+    <select name="protocol_key">
+      {% for p in protocols %}
+      <option value="{{ p.protocol_key }}">{{ p.protocol_name }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn" type="submit">添加用户</button>
+  </form>
+  <div class="alert">添加用户前，请先在协议管理里安装对应协议。VLESS 类协议使用 UUID，密码输入会被忽略。</div>
+</div>
+
+<div class="card mt">
+  <h2>用户列表</h2>
+  <table class="table">
+    <tr>
+      <th>用户</th>
+      <th>协议</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.username }}</td>
+      <td>{{ u.protocol_key }}</td>
+      <td>{{ '开启' if u.enabled else '关闭' }}</td>
+      <td class="table-actions">
+        <form method="post" action="/users/{{ u.id }}/toggle">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          {% if u.enabled %}
+          <button class="btn red" type="submit">关闭</button>
+          {% else %}
+          <button class="btn" type="submit">开启</button>
+          {% endif %}
+        </form>
+        <form method="post" action="/users/{{ u.id }}/delete" onsubmit="return confirm('确认删除用户？')">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <button class="btn gray" type="submit">删除</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

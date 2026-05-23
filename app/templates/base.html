@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自由档案馆 VPN Web Manager</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        自由档案馆｜VPN面板
+        <a href="https://iwantrun.com" target="_blank" rel="noopener">使用教程</a>
+      </div>
+      <nav class="nav">
+        <a href="/" class="{{ 'active' if active == 'home' else '' }}">首页</a>
+        <a href="/protocols" class="{{ 'active' if active == 'protocols' else '' }}">协议管理</a>
+        <a href="/users" class="{{ 'active' if active == 'users' else '' }}">用户管理</a>
+        <a href="/firewall" class="{{ 'active' if active == 'firewall' else '' }}">端口状态</a>
+        <a href="/logs" class="{{ 'active' if active == 'logs' else '' }}">日志管理</a>
+        <a href="/settings" class="{{ 'active' if active == 'settings' else '' }}">系统设置</a>
+        <a href="/logout">退出登录</a>
+      </nav>
+    </aside>
+    <main class="main">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>系统设置</h1>
+    <p>管理员密码、Web 面板端口、卸载相关设置。</p>
+  </div>
+</div>
+
+{% if msg %}<div class="alert green">{{ msg }}</div>{% endif %}
+{% if error %}<div class="alert red">{{ error }}</div>{% endif %}
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2>修改管理员密码</h2>
+    <form class="form" method="post" action="/settings/password">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label>管理员账号</label>
+      <input name="username" value="admin" required>
+      <label>新密码</label>
+      <input name="password" type="password" required>
+      <button class="btn" type="submit">保存新密码</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Web 面板端口</h2>
+    <p>当前端口：<strong>{{ panel_port or '未知' }}/TCP</strong></p>
+    <form
+      class="form-inline"
+      method="post"
+      action="/settings/port"
+      onsubmit="return confirm('修改端口后面板会重启，请确认新端口已在 VPS 后台防火墙放行。')"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input name="port" type="number" min="1" max="65535" placeholder="新端口" required>
+      <button class="btn" type="submit">修改端口</button>
+    </form>
+  </div>
+</div>
+
+<div class="grid grid-2 mt">
+  <div class="card">
+    <h2>卸载 Web 面板</h2>
+    <p>删除 Web 面板、面板数据库和面板服务，保留 sing-box 内核和协议配置。</p>
+    <form
+      method="post"
+      action="/settings/uninstall-web"
+      onsubmit="return confirm('确认卸载 Web 面板？卸载后此页面将无法访问。')"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <button class="btn red" type="submit">卸载 Web 面板</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>卸载所有服务</h2>
+    <p>删除 Web 面板、sing-box、所有协议配置和用户信息。此操作不可恢复。</p>
+    <form
+      method="post"
+      action="/settings/uninstall-all"
+      onsubmit="return confirm('确认卸载所有服务？这会删除所有节点和用户配置。')"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <button class="btn red" type="submit">卸载所有服务</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

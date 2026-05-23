@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>日志管理</h1>
+    <p>全部日志、诊断信息和协议服务日志集中显示。</p>
+  </div>
+  <div class="actions log-actions">
+    <button class="btn gray" onclick="copyText('log-content')">复制日志</button>
+    <a class="btn" href="https://iwantrun.com/submit" target="_blank" rel="noopener">反馈问题</a>
+  </div>
+</div>
+
+<div class="card">
+  <h2>{{ title }}</h2>
+  <pre id="log-content" class="logbox">{{ content }}</pre>
+</div>
+{% endblock %}
