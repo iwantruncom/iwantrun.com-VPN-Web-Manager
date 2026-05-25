@@ -24,6 +24,7 @@
 - 🔄 **内核更新**：可检测 sing-box 新版本并在线更新。
 - 🛡️ **登录保护**：随机登录路径、验证码、登录失败限制。
 - 🌐 **默认 80 端口**：减少新手放行随机端口的难度。
+<img width="2812" height="2080" alt="image" src="https://github.com/user-attachments/assets/164344f6-6059-440b-a8e1-c1f28fe7868a" />
 
 ## 🧱 推荐配置
 
@@ -50,6 +51,8 @@
 访问在线安装页面：
 
 [https://ssh.iwantrun.com/](https://ssh.iwantrun.com/)
+
+<img width="2426" height="2382" alt="image" src="https://github.com/user-attachments/assets/19c56f22-dc30-48a3-a5b5-f76e1210ac6c" />
 
 使用方法：
 
