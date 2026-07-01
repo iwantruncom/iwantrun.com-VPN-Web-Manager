@@ -16,11 +16,14 @@
     <form class="form" method="post" action="/settings/password">
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
       <label>管理员账号</label>
-      <input name="username" value="admin" required>
-      <label>新密码</label>
-      <input name="password" type="password" required>
+      <input value="{{ admin_username }}" disabled>
+      <label>当前密码</label>
+      <input name="current_password" type="password" required>
+      <label>新密码（至少 6 位）</label>
+      <input name="password" type="password" minlength="6" required>
       <button class="btn" type="submit">保存新密码</button>
     </form>
+    <p class="hint">修改成功后，所有已登录的会话都会失效，需要用新密码重新登录。</p>
   </div>
 
   <div class="card">
